@@ -8,9 +8,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import com.spring.microservice.patient.security.PatientLoginDetails;
-import com.spring.microservice.patient.security.PatientLogingDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,7 +33,7 @@ public class JwtFilter extends OncePerRequestFilter {
 		String unique_id = null;
 		if (auth != null && auth.startsWith("Bearer")) {
 			token = auth.substring(6);
-			unique_id = jwtUtills.getUsernameFromToken(token);
+			unique_id = jwtUtills.getUniqueIdFromToken(token);
 		}
 
 		if (unique_id != null && SecurityContextHolder.getContext().getAuthentication() == null) {

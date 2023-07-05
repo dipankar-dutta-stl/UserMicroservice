@@ -33,13 +33,13 @@ public class JwtUtills implements Serializable {
 	}
 
 	public Boolean validateJwtToken(String token, UserDetails userDetails) {
-		String username = getUsernameFromToken(token);
+		String username = getUniqueIdFromToken(token);
 		Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
 		Boolean isTokenExpired = claims.getExpiration().before(new Date());
 		return (username.equals(userDetails.getUsername()) && !isTokenExpired);
 	}
 
-	public String getUsernameFromToken(String token) {
+	public String getUniqueIdFromToken(String token) {
 		final Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
 		return claims.getSubject();
 	}
