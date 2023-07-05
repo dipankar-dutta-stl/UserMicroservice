@@ -7,6 +7,7 @@ import com.stl.microservice.user.repo.UserDetailsRepo;
 import com.stl.microservice.user.repo.UserRepo;
 import com.stl.microservice.user.security.UserLoginDetails;
 import com.stl.microservice.user.security.UserLoginDetailsService;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +20,7 @@ import java.util.Date;
 import java.util.Locale;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 
     /*-------------------------------- CREATING USER REPO VIA DEPENDENCY INJECTION ------------------------------*/
@@ -124,4 +125,5 @@ public class UserController {
             return "RESET PASSWORD PROCESSING FAILED";
         }
     }
+
 }

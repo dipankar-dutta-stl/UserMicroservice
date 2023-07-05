@@ -37,7 +37,7 @@ public class UserSecurity {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.csrf().disable().cors().disable().authorizeRequests()
-                .requestMatchers("/user/login","/user/register")
+                .requestMatchers("/users/login","/users/register")
                 .permitAll().requestMatchers(HttpMethod.OPTIONS, "/**").permitAll().anyRequest().authenticated().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
