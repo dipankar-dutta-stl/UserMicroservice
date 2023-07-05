@@ -32,7 +32,7 @@ public class JwtUtills implements Serializable {
 				.signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
 	}
 
-	public Boolean validateJwtToken(String token, UserDetails userDetails) {
+	public Boolean validateJwtToken(String token, UserDetails userDetails) throws Exception{
 		String username = getUniqueIdFromToken(token);
 		Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
 		Boolean isTokenExpired = claims.getExpiration().before(new Date());
@@ -42,6 +42,13 @@ public class JwtUtills implements Serializable {
 	public String getUniqueIdFromToken(String token) {
 		final Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
 		return claims.getSubject();
+	}
+
+	public String expireToken(String token){
+		final Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
+		claims.setExpiration(new Date(System.currentTimeMillis() +0* 1000));
+		String EXP_TOKEN=Jwts.builder().setClaims(claims).signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
+		return EXP_TOKEN;
 	}
 
 }

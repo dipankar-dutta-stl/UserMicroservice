@@ -15,7 +15,7 @@ import java.util.Date;
 public class UserDetails {
     /*---------------------- DECLARING USER DETAILS PROPERTIES --------------*/
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="user_detail_id")
     Long USER_DETAILS_ID;
     @Column(name="user_id",nullable =false)
@@ -76,9 +76,9 @@ public class UserDetails {
     String HOSPITAL_NAME;
     @Column(name="isGPChanged")
     int ISGPCHANGED;
-    @Column(name="created_date")
+    @Column(name="created_date",nullable = false)
     Date CREATED_DATE;
-    @Column(name="updated_date")
+    @Column(name="updated_date",nullable = false)
     Date UPDATED_DATE;
     /*------------------------ END OF DECLARING PROPERTIES ---------------------------*/
 
