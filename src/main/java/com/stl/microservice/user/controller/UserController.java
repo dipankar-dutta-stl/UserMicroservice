@@ -111,7 +111,17 @@ public class UserController {
     }
 
     /*--------------------------- METHOD FOR RESET PASSWORD -------------------------*/
-    public String resetPassword(){
-        return null;
+    @PostMapping("/resetPass")
+    public String resetPassword(@RequestHeader("Authorization") String TOKEN){
+        try{
+            String RAW_TOKEN=TOKEN.substring(7);
+            String UNIQUE_ID=jwtUtills.getUniqueIdFromToken(RAW_TOKEN);
+            String NEW_PASSWORD=new BCryptPasswordEncoder().encode("12345");
+            USER_REPO.resetPassword(NEW_PASSWORD,UNIQUE_ID);
+            return "PASSWORD RESET SUCCESSFUL\n NEW PASSWORD: 12345";
+        }catch(Exception X){
+            X.printStackTrace();
+            return "RESET PASSWORD PROCESSING FAILED";
+        }
     }
 }
