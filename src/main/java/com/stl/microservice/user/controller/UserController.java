@@ -126,4 +126,19 @@ public class UserController {
         }
     }
 
+    @GetMapping("/view_user")
+    public UserDetails viewUser(@RequestHeader("Authorization") String TOKEN){
+        String RAW_TOKEN=TOKEN.substring(7);
+        String UNIQUE_ID=jwtUtills.getUniqueIdFromToken(RAW_TOKEN);
+        Long USER_ID= USER_REPO.findUserIdByUniqueId(UNIQUE_ID);
+        UserDetails userDetails=USER_DETAILS_REPO.findByUserId(USER_ID);
+        return userDetails;
+    }
+
+    @GetMapping("/view_user/{id}")
+    public UserDetails viewUserById(@PathVariable("id") Long ID){
+        UserDetails userDetails=USER_DETAILS_REPO.findByUserId(ID);
+        return userDetails;
+    }
+
 }

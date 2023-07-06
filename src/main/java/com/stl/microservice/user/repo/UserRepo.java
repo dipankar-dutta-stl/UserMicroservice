@@ -15,4 +15,7 @@ public interface UserRepo extends JpaRepository<User,Long> {
     public void resetPassword(String PASS,String UID);
     @Query(value="SELECT role_id FROM tbl_user WHERE unique_id=?",nativeQuery = true)
     public String findRoleIdByUniqueId(String UID);
+
+    @Query(value="SELECT user_id FROM tbl_user WHERE unique_id=?",nativeQuery = true)
+    public Long findUserIdByUniqueId(String UID);
 }
