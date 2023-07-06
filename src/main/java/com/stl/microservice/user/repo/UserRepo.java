@@ -26,4 +26,8 @@ public interface UserRepo extends JpaRepository<User,Long> {
     @Transactional
     @Query(value="UPDATE tbl_user SET user_status=? WHERE user_id=?",nativeQuery = true)
     public void updateUserStatusByUserId(int Status,String UID);
+
+    @Query(value="SELECT role_id FROM tbl_user WHERE unique_id=?",nativeQuery = true)
+    public int findRoleByUniqueId(String UID);
+
 }
