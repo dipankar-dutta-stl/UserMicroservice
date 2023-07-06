@@ -46,14 +46,24 @@ public class UserController {
     /*------------------------------- METHOD FOR USER LOGIN -----------------------------*/
     @PostMapping("/login")
     public String login(@RequestBody  User LOGIN_USER){
-        Authentication authentication=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(LOGIN_USER.getUNIQUE_ID(),LOGIN_USER.getPASSWORD()));
-        if(authentication.isAuthenticated()){
-            UserLoginDetails userLoginDetails=(UserLoginDetails) userLoginDetailsService.loadUserByUsername(LOGIN_USER.getUNIQUE_ID());
-            String TOKEN=jwtUtills.generateJwtToken(userLoginDetails);
-            return TOKEN;
-        }
+        try {
+            Authentication authentication=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(LOGIN_USER.getUNIQUE_ID(),LOGIN_USER.getPASSWORD()));
+            if(authentication.isAuthenticated()){
+                int USER_STATUS= USER_REPO.getUserStatusByUniqueId(LOGIN_USER.getUNIQUE_ID());
+                if(USER_STATUS==1){
+                    UserLoginDetails userLoginDetails=(UserLoginDetails) userLoginDetailsService.loadUserByUsername(LOGIN_USER.getUNIQUE_ID());
+                    String TOKEN=jwtUtills.generateJwtToken(userLoginDetails);
+                    return TOKEN;
+                }else{
+                    return "USER DELETED";
+                }
 
-       return "LOGIN FAILED";
+            } else{
+                return "LOGIN FAILED";
+            }
+        }catch (Exception X){
+            return "LOGIN ERROR";
+        }
     }
 
 
@@ -139,6 +149,21 @@ public class UserController {
     public UserDetails viewUserById(@PathVariable("id") Long ID){
         UserDetails userDetails=USER_DETAILS_REPO.findByUserId(ID);
         return userDetails;
+    }
+
+
+    @RequestMapping(value="/edit_user/{id}",method = RequestMethod.PUT)
+    public UserDetails editUser(@PathVariable String id,UserDetails UPDATED_USER_DETAILS){
+            UPDATED_USER_DETAILS.setUSER_ID(Long.parseLong(id));
+            return UPDATED_USER_DETAILS;
+    }
+
+
+    @DeleteMapping("/delete_user/{id}")
+    public String deleteUser(@PathVariable("id") String UID){
+        USER_REPO.updateUserStatusByUserId(0,UID);
+        USER_DETAILS_REPO.updateUserStatusByUserId(0,UID);
+        return "USER DELETED";
     }
 
 }
