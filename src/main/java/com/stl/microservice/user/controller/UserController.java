@@ -62,6 +62,7 @@ public class UserController {
                 return "LOGIN FAILED";
             }
         }catch (Exception X){
+            X.printStackTrace();
             return "LOGIN ERROR";
         }
     }
