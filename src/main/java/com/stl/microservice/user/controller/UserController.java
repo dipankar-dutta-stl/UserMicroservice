@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.Locale;
 
 @RestController
+@CrossOrigin(origins="http://localhost:4200/")
 @RequestMapping("/users")
 public class UserController {
 
@@ -137,6 +138,7 @@ public class UserController {
         }
     }
 
+    /*----------------------------------- METHOD FOR VIEW LOGGED IN USER ----------------------------------*/
     @GetMapping("/view_user")
     public UserDetails viewUser(@RequestHeader("Authorization") String TOKEN){
         String RAW_TOKEN=TOKEN.substring(7);
@@ -146,6 +148,7 @@ public class UserController {
         return userDetails;
     }
 
+    /**/
     @GetMapping("/view_user/{id}")
     public UserDetails viewUserById(@PathVariable("id") Long ID){
         UserDetails userDetails=USER_DETAILS_REPO.findByUserId(ID);
