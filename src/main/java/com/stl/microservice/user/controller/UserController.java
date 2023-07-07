@@ -199,13 +199,53 @@ public class UserController {
 
 
     /*----------------------------------- METHOD FOR EDIT ROLE BY ID ----------------------------------*/
-    @GetMapping("/edit_roles/{id}")
-    public Role editRolesById(@PathVariable("id") int ROLE_ID,@RequestHeader("Authorization") String TOKEN,Role UPDATED_ROLE){
-        String RAW_TOKEN=TOKEN.substring(7);
-        String UNIQUE_ID;
-        return null;
+    @PutMapping("/edit_roles/{id}")
+    public String editRolesById(@PathVariable("id") int ROLE_ID,@RequestHeader("Authorization") String TOKEN,Role UPDATED_ROLE){
+        try{
+            Date UPDATED_AT=new Date();
+            SimpleDateFormat DATE_FORMATTER=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String RAW_TOKEN=TOKEN.substring(7);
+            String UNIQUE_ID=jwtUtills.getUniqueIdFromToken(RAW_TOKEN);
+            String ROLE_NAME=USER_REPO.findRoleNameByUniqueId(UNIQUE_ID);
+            if(ROLE_NAME.equals("Admin")){
+                Role OLD_ROLE=ROLE_REPO.findById(ROLE_ID).get();
+                UPDATED_ROLE.setROLE_ID(ROLE_ID);
+                UPDATED_ROLE.setCREATED_DATE(OLD_ROLE.getCREATED_DATE());
+                UPDATED_ROLE.setUPDATED_DATE(DATE_FORMATTER.parse(DATE_FORMATTER.format(UPDATED_AT)));
+                ROLE_REPO.save(UPDATED_ROLE);
+                return "ROLE UPDATED";
+            }
+            else{
+                return "YOU ARE NOT ADMIN";
+            }
+        }
+        catch (Exception X){
+            return "ERROR OCCURS";
+        }
+
     }
 
+    /*----------------------------------- METHOD FOR DELETE ROLE BY ID ----------------------------------*/
+    @DeleteMapping("/delete_roles/{id}")
+    public String deleteRolesById(@PathVariable("id") int ROLE_ID,@RequestHeader("Authorization") String TOKEN){
+        try{
+            String RAW_TOKEN=TOKEN.substring(7);
+            String UNIQUE_ID=jwtUtills.getUniqueIdFromToken(RAW_TOKEN);
+            String ROLE_NAME=USER_REPO.findRoleNameByUniqueId(UNIQUE_ID);
+            if(ROLE_NAME.equals("Admin")){
+                ROLE_REPO.deleteRoleById("deactive",ROLE_ID);
+                return "ROLE DELETED";
+            }
+            else{
+                return "YOU ARE NOT ADMIN";
+            }
+        }
+        catch (Exception X){
+            X.printStackTrace();
+            return "ERROR OCCURS";
+        }
+
+    }
 
 
 }
