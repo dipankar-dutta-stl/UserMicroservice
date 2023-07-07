@@ -1,9 +1,11 @@
 package com.stl.microservice.user.controller;
 
 import com.stl.microservice.user.jwt.JwtUtills;
+import com.stl.microservice.user.model.Module;
 import com.stl.microservice.user.model.Role;
 import com.stl.microservice.user.model.User;
 import com.stl.microservice.user.model.UserDetails;
+import com.stl.microservice.user.repo.ModuleRepo;
 import com.stl.microservice.user.repo.RoleRepo;
 import com.stl.microservice.user.repo.UserDetailsRepo;
 import com.stl.microservice.user.repo.UserRepo;
@@ -37,6 +39,10 @@ public class UserController {
     /*------------------------------ CREATING ROLE REPO VIA DEPENDENCY INJECTION ----------------------------*/
     @Autowired
     RoleRepo ROLE_REPO;
+
+    /*------------------------------ CREATING MODULE REPO VIA DEPENDENCY INJECTION ----------------------------*/
+    @Autowired
+    ModuleRepo MODULE_REPO;
 
     /*------------------------------- CREATING AUTHENTICATION MANAGER VIA DEPENDENCY INJECTION ---------------------*/
     @Autowired
@@ -245,6 +251,42 @@ public class UserController {
             return "ERROR OCCURS";
         }
 
+    }
+
+    /*----------------------------------- METHOD FOR ADD MODULE ----------------------------------*/
+    @PostMapping("/add_modules")
+    public String add_modules(@RequestBody Module NEW_MODULE){
+        try{
+            Date CREATED_AT=new Date();
+            SimpleDateFormat DATE_FORMATTER=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            NEW_MODULE.setCREATED_DATE(DATE_FORMATTER.parse(DATE_FORMATTER.format(CREATED_AT)));
+            NEW_MODULE.setUPDATED_DATE(DATE_FORMATTER.parse(DATE_FORMATTER.format(CREATED_AT)));
+            MODULE_REPO.save(NEW_MODULE);
+            return "MODULE CREATED";
+        }catch(Exception x){
+            return "ERROR IN ADDING MODULE";
+        }
+
+    }
+
+    /*----------------------------------- METHOD FOR VIEW ALL MODULE ----------------------------------*/
+    @GetMapping("/view_modules")
+    public List<Module> view_modules(){
+        return MODULE_REPO.findAll();
+    }
+
+    /*----------------------------------- METHOD FOR VIEW MODULE BY ID ----------------------------------*/
+    @GetMapping("/view_modules/{id}")
+    public Module view_modules_by_id(@PathVariable("id") int MID){
+        return MODULE_REPO.findById(MID).get();
+    }
+
+
+    /*----------------------------------- METHOD FOR DELETE MODULE BY ID ----------------------------------*/
+    @DeleteMapping("/delete_modules/{id}")
+    public String delete_modules(@PathVariable("id") int MID){
+        MODULE_REPO.deleteModuleById(MID);
+        return "MODULE DELETED";
     }
 
 
