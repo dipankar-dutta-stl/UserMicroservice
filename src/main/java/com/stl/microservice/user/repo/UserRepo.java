@@ -30,4 +30,7 @@ public interface UserRepo extends JpaRepository<User,Long> {
     @Query(value="SELECT role_id FROM tbl_user WHERE unique_id=?",nativeQuery = true)
     public int findRoleByUniqueId(String UID);
 
+    @Query(value="SELECT tbl_role.role_name FROM tbl_role,tbl_user WHERE tbl_role.role_id=tbl_user.role_id AND tbl_user.unique_id=?",nativeQuery = true)
+    public String findRoleNameByUniqueId(String UNIQUE_ID);
+
 }

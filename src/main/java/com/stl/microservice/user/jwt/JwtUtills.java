@@ -22,7 +22,7 @@ public class JwtUtills implements Serializable {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final long TOKEN_VALIDITY = 48 * 60 * 60;
+	private static final long TOKEN_VALIDITY = 72 * 60 * 60;
 	@Value("${jwt.secret}")
 	private String jwtSecret;
 

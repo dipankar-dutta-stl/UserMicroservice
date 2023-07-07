@@ -1,8 +1,10 @@
 package com.stl.microservice.user.controller;
 
 import com.stl.microservice.user.jwt.JwtUtills;
+import com.stl.microservice.user.model.Role;
 import com.stl.microservice.user.model.User;
 import com.stl.microservice.user.model.UserDetails;
+import com.stl.microservice.user.repo.RoleRepo;
 import com.stl.microservice.user.repo.UserDetailsRepo;
 import com.stl.microservice.user.repo.UserRepo;
 import com.stl.microservice.user.security.UserLoginDetails;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 @RestController
@@ -30,6 +33,10 @@ public class UserController {
     /*------------------------------- CREATING USER DETAILS REPO VIA DEPENDENCY INJECTION -----------------------*/
     @Autowired
     UserDetailsRepo USER_DETAILS_REPO;
+
+    /*------------------------------ CREATING ROLE REPO VIA DEPENDENCY INJECTION ----------------------------*/
+    @Autowired
+    RoleRepo ROLE_REPO;
 
     /*------------------------------- CREATING AUTHENTICATION MANAGER VIA DEPENDENCY INJECTION ---------------------*/
     @Autowired
@@ -148,7 +155,7 @@ public class UserController {
         return userDetails;
     }
 
-    /**/
+    /*----------------------------------- METHOD FOR VIEW LOGGED IN USER BY ID ----------------------------------*/
     @GetMapping("/view_user/{id}")
     public UserDetails viewUserById(@PathVariable("id") Long ID){
         UserDetails userDetails=USER_DETAILS_REPO.findByUserId(ID);
@@ -156,6 +163,7 @@ public class UserController {
     }
 
 
+    /*----------------------------------- METHOD FOR EDIT USER BY ID ----------------------------------*/
     @RequestMapping(value="/edit_user/{id}",method = RequestMethod.PUT)
     public UserDetails editUser(@PathVariable String id,UserDetails UPDATED_USER_DETAILS){
             UPDATED_USER_DETAILS.setUSER_ID(Long.parseLong(id));
@@ -163,11 +171,41 @@ public class UserController {
     }
 
 
+    /*----------------------------------- METHOD FOR DELETE  USER  BY ID ----------------------------------*/
     @DeleteMapping("/delete_user/{id}")
     public String deleteUser(@PathVariable("id") String UID){
         USER_REPO.updateUserStatusByUserId(0,UID);
         USER_DETAILS_REPO.updateUserStatusByUserId(0,UID);
         return "USER DELETED";
     }
+
+
+    /*----------------------------------- METHOD FOR VIEW ALL ROLES ----------------------------------*/
+    @GetMapping("/view_roles")
+    public List<Role> viewRoles(){
+        return ROLE_REPO.findAll();
+    }
+
+    /*----------------------------------- METHOD FOR VIEW ROLE BY ID ----------------------------------*/
+    @GetMapping("/view_roles/{id}")
+    public Role viewRolesById(@PathVariable("id") int ROLE_ID){
+        try{
+            return ROLE_REPO.findById(ROLE_ID).get();
+        }catch(Exception X){
+            return null;
+        }
+
+    }
+
+
+    /*----------------------------------- METHOD FOR EDIT ROLE BY ID ----------------------------------*/
+    @GetMapping("/edit_roles/{id}")
+    public Role editRolesById(@PathVariable("id") int ROLE_ID,@RequestHeader("Authorization") String TOKEN,Role UPDATED_ROLE){
+        String RAW_TOKEN=TOKEN.substring(7);
+        String UNIQUE_ID;
+        return null;
+    }
+
+
 
 }

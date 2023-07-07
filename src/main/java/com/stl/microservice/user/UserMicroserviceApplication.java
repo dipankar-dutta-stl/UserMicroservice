@@ -49,7 +49,7 @@ public class UserMicroserviceApplication {
 		configuration.setAllowCredentials(true);
 		configuration.setAllowedHeaders(Arrays.asList(
 				"Accept", "Origin", "Content-Type", "Depth", "User-Agent", "If-Modified-Since,",
-				"Cache-Control", "Authorization", "X-Req", "X-File-Size", "X-Requested-With", "X-File-Name"));
+				"Cache-Control", "Authorization", "X-Req", "X-File-Size", "X-Requested-With", "X-File-Name","*"));
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
