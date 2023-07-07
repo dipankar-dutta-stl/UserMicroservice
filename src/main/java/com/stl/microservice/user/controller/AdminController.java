@@ -1,7 +1,9 @@
 package com.stl.microservice.user.controller;
 
 import com.stl.microservice.user.jwt.JwtUtills;
+import com.stl.microservice.user.model.DistrictMaster;
 import com.stl.microservice.user.model.StateMaster;
+import com.stl.microservice.user.repo.DistrictMasterRepo;
 import com.stl.microservice.user.repo.StateMasterRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +21,11 @@ public class AdminController {
 
     @Autowired
     StateMasterRepo STATE_MASTER_REPO;
+    @Autowired
+    DistrictMasterRepo DISTRICT_MASTER_REPO;
 
+
+    /*------------------------------------------- REST API FOR STATE -----------------------------------*/
     @PostMapping("/add_state")
     public String add_state(@RequestBody StateMaster NEW_STATE){
         try{
@@ -60,6 +66,48 @@ public class AdminController {
             return "STATE DELETED";
         }catch(Exception X){
             return "ERROR WHILE STATE DELETING";
+        }
+    }
+
+    /*--------------------------------------- REST API FOR DISTRICT -----------------------------*/
+    @PostMapping("/add_district")
+    public String add_district(@RequestBody DistrictMaster NEW_DISTRICT){
+        try{
+
+            DISTRICT_MASTER_REPO.save(NEW_DISTRICT);
+            return "NEW DISTRICT ADDED";
+        }catch(Exception X){
+            return "ERROR WIHILE ADDING DISTRICT";
+        }
+    }
+
+
+    @GetMapping("/view_district")
+    public List<DistrictMaster> view_district(){
+        try{
+            return DISTRICT_MASTER_REPO.findAll();
+        }catch(Exception X){
+            return null;
+        }
+    }
+
+    @GetMapping("/view_district/{id}")
+    public DistrictMaster view_district_by_id(@PathVariable("id") int DID){
+        try{
+            return DISTRICT_MASTER_REPO.findById(DID).get();
+        }catch(Exception X){
+            return null;
+        }
+    }
+
+
+    @DeleteMapping("/delete_district/{id}")
+    public String delete_district_by_id(@PathVariable("id") int DID){
+        try{
+            DISTRICT_MASTER_REPO.deleteDistrictById(DID);
+            return "DISTRICT DELETED";
+        }catch(Exception X){
+            return "ERROR WHILE DELETING DISTRICT";
         }
     }
 
