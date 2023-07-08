@@ -4,9 +4,11 @@ import com.stl.microservice.user.jwt.JwtUtills;
 import com.stl.microservice.user.model.DistrictMaster;
 import com.stl.microservice.user.model.StateMaster;
 import com.stl.microservice.user.model.TalukaMaster;
+import com.stl.microservice.user.model.VillageMaster;
 import com.stl.microservice.user.repo.DistrictMasterRepo;
 import com.stl.microservice.user.repo.StateMasterRepo;
 import com.stl.microservice.user.repo.TalukaMasterRepo;
+import com.stl.microservice.user.repo.VillageMasterRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +30,9 @@ public class AdminController {
 
     @Autowired
     TalukaMasterRepo TALUKA_MASTER_REPO;
+
+    @Autowired
+    VillageMasterRepo VILLAGE_MASTER_REPO;
 
 
     /*------------------------------------------- REST API FOR STATE -----------------------------------*/
@@ -144,7 +149,7 @@ public class AdminController {
 
 
     @GetMapping("/view_taluka/{id}")
-    public TalukaMaster add_taluka(@PathVariable("id") int TID){
+    public TalukaMaster view_taluka(@PathVariable("id") int TID){
         try{
 
             return TALUKA_MASTER_REPO.findById(TID).get();
@@ -160,7 +165,56 @@ public class AdminController {
             TALUKA_MASTER_REPO.deleteTalukaById(TID);
             return "TALUKA DELETED";
         }catch(Exception X){
-            return "ERROR WHILE ADDING TALUKA";
+            return "ERROR WHILE DELETING TALUKA";
+        }
+    }
+
+
+    /*--------------------------------------- REST API FOR VILLAGE -----------------------------*/
+
+    @PostMapping("/add_village")
+    public String add_village(@RequestBody VillageMaster NEW_VILLAGE){
+        try{
+            Date CREATED_AT=new Date();
+            SimpleDateFormat DATE_FORMATTER=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            NEW_VILLAGE.setCREATED_DATE(DATE_FORMATTER.parse(DATE_FORMATTER.format(CREATED_AT)));
+            NEW_VILLAGE.setUPDATED_DATE(DATE_FORMATTER.parse(DATE_FORMATTER.format(CREATED_AT)));
+            VILLAGE_MASTER_REPO.save(NEW_VILLAGE);
+            return "NEW VILLAGE ADDED";
+        }catch(Exception X){
+            return "ERROR WHILE ADDING VILLAGE";
+        }
+    }
+
+
+    @GetMapping("/view_village")
+    public List<VillageMaster> view_village(){
+        try{
+            return VILLAGE_MASTER_REPO.findAll();
+        }catch(Exception X){
+            return null;
+        }
+    }
+
+
+    @GetMapping("/view_village/{id}")
+    public VillageMaster view_village(@PathVariable("id") int VID){
+        try{
+
+            return VILLAGE_MASTER_REPO.findById(VID).get();
+        }catch(Exception X){
+            return null;
+        }
+    }
+
+
+    @DeleteMapping("/delete_village/{id}")
+    public String delete_village(@PathVariable("id") int VID){
+        try{
+            VILLAGE_MASTER_REPO.deleteVillageById(VID);
+            return "VILLAGE DELETED";
+        }catch(Exception X){
+            return "ERROR WHILE DELETING VILLAGE";
         }
     }
 }
