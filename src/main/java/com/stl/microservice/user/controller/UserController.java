@@ -84,7 +84,7 @@ public class UserController {
 
     /*------------------------------ METHOD FOR CREATE USER ---------------------------*/
     @PostMapping("/register")
-    public User createUser(@RequestBody User USER){
+    public String createUser(@RequestBody User USER){
         try{
             /*------------------------ GET CURRENT DATE & TIME ----------------------*/
             Date CREATED_AT=new Date();
@@ -109,7 +109,7 @@ public class UserController {
             USER_DETAILS.setUPDATED_DATE(U.getUPDATED_DATE());
             /*-------------------------------- SAVE USER DETAILS TO DATABASE ---------------------*/
             USER_DETAILS_REPO.save(USER_DETAILS);
-            return U;
+            return "USER CREATED" ;
         }catch(Exception x){
            System.out.println(x.toString());
            return null;
