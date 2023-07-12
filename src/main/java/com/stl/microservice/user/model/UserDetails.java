@@ -1,9 +1,6 @@
 package com.stl.microservice.user.model;
 
-import com.stl.microservice.user.enums.BloodGroup;
-import com.stl.microservice.user.enums.Gender;
 import com.stl.microservice.user.enums.Ocupation;
-import com.stl.microservice.user.enums.UserStatus;
 import jakarta.persistence.*;
 
 
@@ -18,13 +15,13 @@ public class UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="user_detail_id")
     Long USER_DETAILS_ID;
-    @Column(name="user_id",nullable =false)
+    @Column(name="user_id")
     Long USER_ID;
-    @Column(name="reg_number",nullable = false)
+    @Column(name="reg_number")
     String REG_NUMBER;
     @Column(name="role_id")
     Long ROLE_ID;
-    @Column(name="aadhar_card_no")
+    @Column(name="aadhar_card_no",nullable = true)
     String AADHAR_CARD_NO;
     @Column(name="first_name")
     String FIRST_NAME;
@@ -40,7 +37,7 @@ public class UserDetails {
     String CITY;
     @Column(name="state_id")
     Long STATE_ID;
-    @Column(name="districe_id")
+    @Column(name="district_id",nullable = true)
     Long DISTRICT_ID;
     @Column(name="taluka_id")
     Long TALUKA_ID;
@@ -57,15 +54,15 @@ public class UserDetails {
     @Column(name="age")
     int AGE;
     @Column(name="gender")
-    Gender GENDER;
+    String GENDER;
     @Column(name="blood_group")
-    BloodGroup BLOOD_GROUP;
+    String BLOOD_GROUP;
     @Column(name="occupation")
-    Ocupation OCCUPATION;
+    String OCCUPATION;
     @Column(name="refer_by")
     String REFER_BY;
     @Column(name="user_status")
-    UserStatus USER_STATUS;
+    String USER_STATUS;
     @Column(name="doctor_speciality")
     String DOCTOR_SPECIALITY;
     @Column(name="doctor_degree")
@@ -91,7 +88,7 @@ public class UserDetails {
 
     /*---------------------------- PARAMETERIZE CONSTRUCTOR -------------------*/
 
-    public UserDetails(Long USER_DETAILS_ID, Long USER_ID, String REG_NUMBER, Long ROLE_ID, String AADHAR_CARD_NO, String FIRST_NAME, String MIDDLE_NAME, String LAST_NAME, String USER_IMAGE, String ADDRESS, String CITY, Long STATE_ID, Long DISTRICT_ID, Long TALUKA_ID, Long VILLAGE_ID, Long PANCHAYAT_ID, Long PINCODE, String WHATSAPP_NO, String DATE_OF_BIRTH, int AGE, Gender GENDER, BloodGroup BLOOD_GROUP, Ocupation OCCUPATION, String REFER_BY, UserStatus USER_STATUS, String DOCTOR_SPECIALITY, String DOCTOR_DEGREE, String PAYTEM_NO, String HOSPITAL_NAME, int ISGPCHANGED, Date CREATED_DATE, Date UPDATED_DATE) {
+    public UserDetails(Long USER_DETAILS_ID, Long USER_ID, String REG_NUMBER, Long ROLE_ID, String AADHAR_CARD_NO, String FIRST_NAME, String MIDDLE_NAME, String LAST_NAME, String USER_IMAGE, String ADDRESS, String CITY, Long STATE_ID, Long DISTRICT_ID, Long TALUKA_ID, Long VILLAGE_ID, Long PANCHAYAT_ID, Long PINCODE, String WHATSAPP_NO, String DATE_OF_BIRTH, int AGE, String GENDER, String BLOOD_GROUP, String OCCUPATION, String REFER_BY, String USER_STATUS, String DOCTOR_SPECIALITY, String DOCTOR_DEGREE, String PAYTEM_NO, String HOSPITAL_NAME, int ISGPCHANGED, Date CREATED_DATE, Date UPDATED_DATE) {
         this.USER_DETAILS_ID = USER_DETAILS_ID;
         this.USER_ID = USER_ID;
         this.REG_NUMBER = REG_NUMBER;
@@ -130,6 +127,7 @@ public class UserDetails {
 
 
     /*------------------------ DECLARING GETTER AND SETTER ---------------------------*/
+
     public Long getUSER_DETAILS_ID() {
         return USER_DETAILS_ID;
     }
@@ -290,27 +288,27 @@ public class UserDetails {
         this.AGE = AGE;
     }
 
-    public Gender getGENDER() {
+    public String getGENDER() {
         return GENDER;
     }
 
-    public void setGENDER(Gender GENDER) {
+    public void setGENDER(String GENDER) {
         this.GENDER = GENDER;
     }
 
-    public BloodGroup getBLOOD_GROUP() {
+    public String getBLOOD_GROUP() {
         return BLOOD_GROUP;
     }
 
-    public void setBLOOD_GROUP(BloodGroup BLOOD_GROUP) {
+    public void setBLOOD_GROUP(String BLOOD_GROUP) {
         this.BLOOD_GROUP = BLOOD_GROUP;
     }
 
-    public Ocupation getOCCUPATION() {
+    public String getOCCUPATION() {
         return OCCUPATION;
     }
 
-    public void setOCCUPATION(Ocupation OCCUPATION) {
+    public void setOCCUPATION(String OCCUPATION) {
         this.OCCUPATION = OCCUPATION;
     }
 
@@ -322,11 +320,11 @@ public class UserDetails {
         this.REFER_BY = REFER_BY;
     }
 
-    public UserStatus getUSER_STATUS() {
+    public String getUSER_STATUS() {
         return USER_STATUS;
     }
 
-    public void setUSER_STATUS(UserStatus USER_STATUS) {
+    public void setUSER_STATUS(String USER_STATUS) {
         this.USER_STATUS = USER_STATUS;
     }
 
@@ -385,7 +383,6 @@ public class UserDetails {
     public void setUPDATED_DATE(Date UPDATED_DATE) {
         this.UPDATED_DATE = UPDATED_DATE;
     }
-
     /*------------------------------- END OF GETTERS AND SETTERS -------------------*/
 
 
@@ -414,11 +411,11 @@ public class UserDetails {
                 ", WHATSAPP_NO='" + WHATSAPP_NO + '\'' +
                 ", DATE_OF_BIRTH='" + DATE_OF_BIRTH + '\'' +
                 ", AGE=" + AGE +
-                ", GENDER=" + GENDER +
-                ", BLOOD_GROUP=" + BLOOD_GROUP +
+                ", GENDER='" + GENDER + '\'' +
+                ", BLOOD_GROUP='" + BLOOD_GROUP + '\'' +
                 ", OCCUPATION=" + OCCUPATION +
                 ", REFER_BY='" + REFER_BY + '\'' +
-                ", USER_STATUS=" + USER_STATUS +
+                ", USER_STATUS='" + USER_STATUS + '\'' +
                 ", DOCTOR_SPECIALITY='" + DOCTOR_SPECIALITY + '\'' +
                 ", DOCTOR_DEGREE='" + DOCTOR_DEGREE + '\'' +
                 ", PAYTEM_NO='" + PAYTEM_NO + '\'' +

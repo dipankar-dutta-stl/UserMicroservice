@@ -21,8 +21,8 @@ public class User {
     String PASSWORD;
     @Column(name="role_id")
     int ROLE_ID;
-    @Column(name="user_status")
-    UserStatus USER_STATUS;
+    @Column(name="user_status",nullable = true)
+    String USER_STATUS;
     @Column(name="created_date")
     Date CREATED_DATE;
     @Column(name="updated_date")
@@ -39,7 +39,7 @@ public class User {
 
     /*------------------------ PARAMETERIZE CONSTRUCTOR --------------*/
 
-    public User(Long USER_ID, String UNIQUE_ID, String EMAIL, String PASSWORD, int ROLE_ID, UserStatus USER_STATUS, Date CREATED_DATE, Date UPDATED_DATE) {
+    public User(Long USER_ID, String UNIQUE_ID, String EMAIL, String PASSWORD, int ROLE_ID, String USER_STATUS, Date CREATED_DATE, Date UPDATED_DATE) {
         this.USER_ID = USER_ID;
         this.UNIQUE_ID = UNIQUE_ID;
         this.EMAIL = EMAIL;
@@ -95,11 +95,11 @@ public class User {
         this.ROLE_ID = ROLE_ID;
     }
 
-    public UserStatus getUSER_STATUS() {
+    public String getUSER_STATUS() {
         return USER_STATUS;
     }
 
-    public void setUSER_STATUS(UserStatus USER_STATUS) {
+    public void setUSER_STATUS(String USER_STATUS) {
         this.USER_STATUS = USER_STATUS;
     }
 

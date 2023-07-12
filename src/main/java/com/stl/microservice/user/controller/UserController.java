@@ -63,8 +63,8 @@ public class UserController {
         try {
             Authentication authentication=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(LOGIN_USER.getUNIQUE_ID(),LOGIN_USER.getPASSWORD()));
             if(authentication.isAuthenticated()){
-                int USER_STATUS= USER_REPO.getUserStatusByUniqueId(LOGIN_USER.getUNIQUE_ID());
-                if(USER_STATUS==1){
+                String USER_STATUS= USER_REPO.getUserStatusByUniqueId(LOGIN_USER.getUNIQUE_ID());
+                if(USER_STATUS.equals("active")){
                     UserLoginDetails userLoginDetails=(UserLoginDetails) userLoginDetailsService.loadUserByUsername(LOGIN_USER.getUNIQUE_ID());
                     String TOKEN=jwtUtills.generateJwtToken(userLoginDetails);
                     return TOKEN;
@@ -84,7 +84,7 @@ public class UserController {
 
     /*------------------------------ METHOD FOR CREATE USER ---------------------------*/
     @PostMapping("/register")
-    public String createUser(@RequestBody User USER){
+    public String register_user(@RequestBody User USER){
         try{
             /*------------------------ GET CURRENT DATE & TIME ----------------------*/
             Date CREATED_AT=new Date();
@@ -95,21 +95,32 @@ public class UserController {
             String ENCODE_PASSWORD=new BCryptPasswordEncoder().encode(USER.getPASSWORD());
             USER.setPASSWORD(ENCODE_PASSWORD);
             /*---------------------------- SAVE USER DATA TO DATABASE ---------------------------*/
+            USER.setROLE_ID(4);
             User U=USER_REPO.save(USER);
-            /*----------------------------- OBJECT OF USER DETAILS -----------------------------*/
-            UserDetails USER_DETAILS=new UserDetails();
+            return U.getUSER_ID().toString();
+        }catch(Exception X){
+            X.printStackTrace();
+            return null;
+        }
+
+    }
+    @PostMapping("/add_usr_details")
+    public String add_user_data(@RequestBody UserDetails USER_DETAILS){
+
+        try{
+            /*------------------------ GET CURRENT DATE & TIME ----------------------*/
+            Date CREATED_AT=new Date();
+            SimpleDateFormat DATE_FORMATTER=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             /*------------------------------ GENERATING UNIQUE REGISTRATION NO ---------------------*/
             String REG_NO=Long.toHexString(Double.doubleToLongBits(Math.random())).toUpperCase(Locale.ROOT).substring(0,8);
             /*------------------------------ SET DATA TO USER DETAILS -----------------------------*/
-            USER_DETAILS.setUSER_ID(U.getUSER_ID());
             USER_DETAILS.setREG_NUMBER(REG_NO);
-            USER_DETAILS.setROLE_ID((long) U.getROLE_ID());
-            USER_DETAILS.setPANCHAYAT_ID(4L);
-            USER_DETAILS.setCREATED_DATE(U.getCREATED_DATE());
-            USER_DETAILS.setUPDATED_DATE(U.getUPDATED_DATE());
+            USER_DETAILS.setCREATED_DATE(DATE_FORMATTER.parse(DATE_FORMATTER.format(CREATED_AT)));
+            USER_DETAILS.setUPDATED_DATE(DATE_FORMATTER.parse(DATE_FORMATTER.format(CREATED_AT)));
             /*-------------------------------- SAVE USER DETAILS TO DATABASE ---------------------*/
+            System.out.println(USER_DETAILS);
             USER_DETAILS_REPO.save(USER_DETAILS);
-            return "USER CREATED" ;
+            return "USER DETAILS CREATED" ;
         }catch(Exception x){
            System.out.println(x.toString());
            return null;

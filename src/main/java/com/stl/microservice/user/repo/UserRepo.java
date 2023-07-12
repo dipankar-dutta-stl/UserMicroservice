@@ -20,7 +20,7 @@ public interface UserRepo extends JpaRepository<User,Long> {
     public Long findUserIdByUniqueId(String UID);
 
     @Query(value = "SELECT user_status FROM tbl_user WHERE unique_id=?",nativeQuery = true)
-    public int getUserStatusByUniqueId(String UNIQUE_ID);
+    public String getUserStatusByUniqueId(String UNIQUE_ID);
 
     @Modifying
     @Transactional
