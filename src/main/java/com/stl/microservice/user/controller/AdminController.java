@@ -1,14 +1,8 @@
 package com.stl.microservice.user.controller;
 
 import com.stl.microservice.user.jwt.JwtUtills;
-import com.stl.microservice.user.model.DistrictMaster;
-import com.stl.microservice.user.model.StateMaster;
-import com.stl.microservice.user.model.TalukaMaster;
-import com.stl.microservice.user.model.VillageMaster;
-import com.stl.microservice.user.repo.DistrictMasterRepo;
-import com.stl.microservice.user.repo.StateMasterRepo;
-import com.stl.microservice.user.repo.TalukaMasterRepo;
-import com.stl.microservice.user.repo.VillageMasterRepo;
+import com.stl.microservice.user.model.*;
+import com.stl.microservice.user.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +27,8 @@ public class AdminController {
 
     @Autowired
     VillageMasterRepo VILLAGE_MASTER_REPO;
+
+    GramPanchayatRepo GRAM_PANCHAYAT_REPO;
 
 
     /*------------------------------------------- REST API FOR STATE -----------------------------------*/
@@ -215,6 +211,53 @@ public class AdminController {
             return "VILLAGE DELETED";
         }catch(Exception X){
             return "ERROR WHILE DELETING VILLAGE";
+        }
+    }
+
+
+    /*--------------------------------------- REST API FOR GRAM PANCHAYAT -----------------------------*/
+
+    @PostMapping("/add_grampanchayat")
+    public String add_grampanchayat(@RequestBody GramPanchayat NEW_GRAM_PANCHAYAT){
+        try{
+            Date CREATED_AT=new Date();
+            SimpleDateFormat DATE_FORMATTER=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            NEW_GRAM_PANCHAYAT.setCREATED_DATE(DATE_FORMATTER.parse(DATE_FORMATTER.format(CREATED_AT)));
+            NEW_GRAM_PANCHAYAT.setUPDATED_DATE(DATE_FORMATTER.parse(DATE_FORMATTER.format(CREATED_AT)));
+            GRAM_PANCHAYAT_REPO.save(NEW_GRAM_PANCHAYAT);
+            return "NEW GRAM PANCHAYAT ADDED";
+        }catch(Exception X){
+            return "ERROR WHILE ADDING GRAM PANCHAYAT";
+        }
+    }
+
+    @GetMapping("/view_grampanchayat")
+    public List<GramPanchayat> view_grampanchayat(){
+        try{
+            return GRAM_PANCHAYAT_REPO.findAll();
+        }catch(Exception X){
+            return null;
+        }
+    }
+
+
+    @GetMapping("/view_grampanchayat/{id}")
+    public GramPanchayat view_grampanchayat(@PathVariable("id") Long GPID){
+        try{
+
+            return GRAM_PANCHAYAT_REPO.findById(GPID).get();
+        }catch(Exception X){
+            return null;
+        }
+    }
+
+    @DeleteMapping("/delete_grampanchayat/{id}")
+    public String delete_grampanchayat(@PathVariable("id") int GPID){
+        try{
+            GRAM_PANCHAYAT_REPO.deleteGramPanchayatById(GPID);
+            return "GRAM PANCHAYAT DELETED";
+        }catch(Exception X){
+            return "ERROR WHILE DELETING GRAM PANCHAYAT";
         }
     }
 }
