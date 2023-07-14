@@ -28,6 +28,7 @@ public class AdminController {
     @Autowired
     VillageMasterRepo VILLAGE_MASTER_REPO;
 
+    @Autowired
     GramPanchayatRepo GRAM_PANCHAYAT_REPO;
 
 
@@ -236,6 +237,7 @@ public class AdminController {
         try{
             return GRAM_PANCHAYAT_REPO.findAll();
         }catch(Exception X){
+            X.printStackTrace();
             return null;
         }
     }

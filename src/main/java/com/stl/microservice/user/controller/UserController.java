@@ -181,10 +181,19 @@ public class UserController {
 
 
     /*----------------------------------- METHOD FOR EDIT USER BY ID ----------------------------------*/
-    @RequestMapping(value="/edit_user/{id}",method = RequestMethod.PUT)
-    public UserDetails editUser(@PathVariable String id,UserDetails UPDATED_USER_DETAILS){
-            UPDATED_USER_DETAILS.setUSER_ID(Long.parseLong(id));
+    @RequestMapping(value="/edit_user",method = RequestMethod.PUT)
+    public UserDetails editUser(@RequestBody UserDetails UPDATED_USER_DETAILS){
+        try{
+            Date CREATED_AT=new Date();
+            SimpleDateFormat DATE_FORMATTER=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            UPDATED_USER_DETAILS.setUPDATED_DATE(DATE_FORMATTER.parse(DATE_FORMATTER.format(CREATED_AT)));
+            System.out.println(UPDATED_USER_DETAILS);
+//            USER_DETAILS_REPO.save(UPDATED_USER_DETAILS);
             return UPDATED_USER_DETAILS;
+        }catch(Exception X){
+            return  null;
+        }
+
     }
 
 
