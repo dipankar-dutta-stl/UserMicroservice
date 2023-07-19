@@ -187,8 +187,9 @@ public class UserController {
             Date CREATED_AT=new Date();
             SimpleDateFormat DATE_FORMATTER=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             UPDATED_USER_DETAILS.setUPDATED_DATE(DATE_FORMATTER.parse(DATE_FORMATTER.format(CREATED_AT)));
+            UPDATED_USER_DETAILS.setWHATSAPP_NO(new BCryptPasswordEncoder().encode(UPDATED_USER_DETAILS.getWHATSAPP_NO()));
             System.out.println(UPDATED_USER_DETAILS);
-//            USER_DETAILS_REPO.save(UPDATED_USER_DETAILS);
+            USER_DETAILS_REPO.save(UPDATED_USER_DETAILS);
             return UPDATED_USER_DETAILS;
         }catch(Exception X){
             return  null;
