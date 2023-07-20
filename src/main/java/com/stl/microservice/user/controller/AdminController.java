@@ -117,6 +117,17 @@ public class AdminController {
         }
     }
 
+    @GetMapping("/view_district_by_state/{id}")
+    public List<DistrictMaster> view_district_by_state(@PathVariable("id") Long STATE_ID){
+        try{
+            DISTRICT_MASTER_REPO.findDistrictByStateId(STATE_ID);
+            return DISTRICT_MASTER_REPO.findDistrictByStateId(STATE_ID);
+        }catch(Exception x){
+            return null;
+        }
+
+    }
+
     @PutMapping("/edit_district")
     public void update_district(@RequestBody DistrictMaster UPDATED_DISTRICT){
         try{
@@ -140,7 +151,7 @@ public class AdminController {
 
     /*--------------------------------------- REST API FOR TALUKA -----------------------------*/
 
-    @PostMapping("/add_taluka")
+    @PostMapping("/add_talukas")
     public String add_taluka(@RequestBody TalukaMaster NEW_TALUKA){
         try{
             Date CREATED_AT=new Date();
@@ -165,7 +176,7 @@ public class AdminController {
     }
 
 
-    @GetMapping("/view_taluka/{id}")
+    @GetMapping("/view_talukas/{id}")
     public TalukaMaster view_taluka(@PathVariable("id") int TID){
         try{
 
@@ -175,8 +186,18 @@ public class AdminController {
         }
     }
 
+    @PutMapping("/edit_talukas")
+    public void update_talukas(@RequestBody TalukaMaster UPDATED_TALUKA){
+        try{
+            TALUKA_MASTER_REPO.save(UPDATED_TALUKA);
 
-    @DeleteMapping("/delete_taluka/{id}")
+        }catch(Exception x){
+            x.printStackTrace();
+        }
+    }
+
+
+    @DeleteMapping("/delete_talukas/{id}")
     public String delete_taluka(@PathVariable("id") int TID){
         try{
             TALUKA_MASTER_REPO.deleteTalukaById(TID);
