@@ -66,6 +66,16 @@ public class AdminController {
         }
     }
 
+    @PutMapping("/edit_state")
+    public String update_state(@RequestBody StateMaster UPDATED_STATE){
+        try{
+            STATE_MASTER_REPO.save(UPDATED_STATE);
+            return "STATE UPDATED";
+        }catch(Exception x){
+            return "STATE NOT UPDATED: ERROR";
+        }
+    }
+
     @DeleteMapping("/delete_state/{id}")
     public String delete_state(@PathVariable("id") int SID){
         try{
@@ -104,6 +114,16 @@ public class AdminController {
             return DISTRICT_MASTER_REPO.findById(DID).get();
         }catch(Exception X){
             return null;
+        }
+    }
+
+    @PutMapping("/edit_district")
+    public void update_district(@RequestBody DistrictMaster UPDATED_DISTRICT){
+        try{
+            DISTRICT_MASTER_REPO.save(UPDATED_DISTRICT);
+
+        }catch(Exception x){
+            x.printStackTrace();
         }
     }
 
