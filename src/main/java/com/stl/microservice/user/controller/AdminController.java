@@ -186,6 +186,15 @@ public class AdminController {
         }
     }
 
+    @GetMapping("/view_taluka_by_district/{id}")
+    public List<TalukaMaster> view_taluka_by_district(@PathVariable("id") Long DID){
+        try{
+                return TALUKA_MASTER_REPO.findTalukaByDistrictId(DID);
+        }catch(Exception x){
+            return null;
+        }
+    }
+
     @PutMapping("/edit_talukas")
     public void update_talukas(@RequestBody TalukaMaster UPDATED_TALUKA){
         try{
@@ -242,6 +251,16 @@ public class AdminController {
             return VILLAGE_MASTER_REPO.findById(VID).get();
         }catch(Exception X){
             return null;
+        }
+    }
+
+    @PutMapping("/edit_village")
+    public String update_village(@RequestBody VillageMaster UPDATED_VILLAGE){
+        try{
+            VILLAGE_MASTER_REPO.save(UPDATED_VILLAGE);
+            return "Village updated Succesfully";
+        }catch (Exception x){
+            return "Update failed";
         }
     }
 
