@@ -60,6 +60,7 @@ public class UserController {
     /*------------------------------- METHOD FOR USER LOGIN -----------------------------*/
     @PostMapping("/login")
     public String login(@RequestBody  User LOGIN_USER){
+        System.out.println(LOGIN_USER);
         try {
             Authentication authentication=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(LOGIN_USER.getUNIQUE_ID(),LOGIN_USER.getPASSWORD()));
             if(authentication.isAuthenticated()){
